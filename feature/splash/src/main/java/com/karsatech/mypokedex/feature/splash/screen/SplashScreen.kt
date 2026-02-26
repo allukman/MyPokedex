@@ -19,10 +19,7 @@ import com.karsatech.mypokedex.core.common.base.BaseScreen
 import com.karsatech.mypokedex.core.common.ui.theme.AppTheme.typography
 import com.karsatech.mypokedex.core.common.utils.state.collectAsStateValue
 import com.karsatech.mypokedex.core.navigation.helper.navigateTo
-import com.karsatech.mypokedex.core.navigation.route.AuthGraph
 import com.karsatech.mypokedex.core.navigation.route.AuthGraph.LoginRoute
-import com.karsatech.mypokedex.core.navigation.route.AuthGraph.RegisterRoute
-import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeFetchApiRoute
 import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeLandingRoute
 import com.karsatech.mypokedex.core.navigation.route.SplashGraph.SplashRoute
 import com.karsatech.mypokedex.feature.splash.viewmodel.SplashViewModel
@@ -40,7 +37,7 @@ internal fun SplashScreen(
             if (SDK_INT >= TIRAMISU) notifPermission.launch(POST_NOTIFICATIONS)
         }
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(token) {
             delay(1000)
             navController.navigateTo(
                 route = if (token != 0) HomeLandingRoute else LoginRoute,
