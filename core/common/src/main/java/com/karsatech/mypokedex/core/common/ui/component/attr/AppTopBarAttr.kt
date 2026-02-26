@@ -36,7 +36,7 @@ object AppTopBarAttr {
     data class TopBarArgs(
         val actionMenus: List<ActionMenu> = emptyList(),
         val iconBack: Int? = null,
-        val title: String? = null,
+        val title: @Composable (() -> Unit)? = null,
         val topBarColor: Color? = null,
         val titleColor: Color? = null,
         val iconBackColor: Color? = null,

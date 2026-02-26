@@ -26,7 +26,7 @@ internal fun HomeDataClassScreen(
     BaseScreen(
         modifier = Modifier.fillMaxSize(),
         topBarArgs = TopBarArgs(
-            title = "Received Data Class Args",
+            title = { Text("Received Data Class Args") },
             onClickBack = { navController.popBackStack() }
         )
     ) {

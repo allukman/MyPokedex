@@ -54,7 +54,7 @@ internal fun HomeFetchApiScreen(
 
     BaseScreen(
         topBarArgs = TopBarArgs(
-            title = "Fetch API Sample",
+            title = { Text("Fetch API Sample") },
             onClickBack = { navController.popBackStack() }
         )
     ) {

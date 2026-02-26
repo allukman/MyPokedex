@@ -29,7 +29,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.navigation)
     implementation(projects.feature.home)
-    implementation(projects.feature.info)
+    implementation(projects.feature.profile)
     implementation(projects.feature.splash)
     implementation(projects.feature.auth)
 }

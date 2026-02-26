@@ -1,7 +1,7 @@
-package com.karsatech.mypokedex.feature.info.di
+package com.karsatech.mypokedex.feature.profile.di
 
 import com.karsatech.mypokedex.core.navigation.base.BaseNavGraph
-import com.karsatech.mypokedex.feature.info.navigation.InfoNavGraphImpl
+import com.karsatech.mypokedex.feature.profile.navigation.ProfileNavGraphImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -10,9 +10,9 @@ import dagger.multibindings.IntoSet
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class InfoNavModule {
+abstract class ProfileNavGraphModule {
 
     @Binds
     @IntoSet
-    abstract fun bindInfoNavGraph(navGraph: InfoNavGraphImpl): BaseNavGraph
+    abstract fun bindProfileNavGraph(impl: ProfileNavGraphImpl): BaseNavGraph
 }

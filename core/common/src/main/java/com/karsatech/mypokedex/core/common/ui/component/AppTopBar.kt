@@ -24,7 +24,7 @@ fun AppTopBar(
     if (centerTopBar) {
         CenterAlignedTopAppBar(
             modifier = modifier,
-            title = title(title.orEmpty()),
+            title = title ?: {},
             navigationIcon = backIcon(iconBack, onClickBack),
             actions = actionIcons(actionMenus),
             colors = centerAlignedTopAppBarColors(
@@ -37,7 +37,7 @@ fun AppTopBar(
     } else {
         TopAppBar(
             modifier = modifier,
-            title = title(title.orEmpty()),
+            title = title ?: {},
             navigationIcon = backIcon(iconBack, onClickBack),
             actions = actionIcons(actionMenus),
             colors = topAppBarColors(

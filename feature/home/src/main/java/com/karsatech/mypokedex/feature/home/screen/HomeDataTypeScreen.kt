@@ -22,7 +22,7 @@ internal fun HomeDataTypeScreen(
 ) = with(viewModel) {
     BaseScreen(
         topBarArgs = AppTopBarAttr.TopBarArgs(
-            title = "Received Data Type Args",
+            title = { Text("Received Data Type Args") },
             onClickBack = { navController.popBackStack() }
         )
     ) {
