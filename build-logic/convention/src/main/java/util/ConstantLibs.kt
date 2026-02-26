@@ -14,7 +14,7 @@ object ConstantLibs {
         "-opt-in=kotlin.RequiresOptIn",
         "-XXLanguage:+PropertyParamAnnotationDefaultTargetMode"
     )
-    const val BASE_NAME = "com.project.compose"
+    const val BASE_NAME = "com.karsatech.mypokedex"
     const val MIN_SDK_VERSION = 26
     const val MAX_SDK_VERSION = 36
     const val KSP = "ksp"

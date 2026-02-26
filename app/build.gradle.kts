@@ -3,10 +3,10 @@ plugins {
 }
 
 android {
-    namespace = "com.project.compose"
+    namespace = "com.karsatech.mypokedex"
 
     defaultConfig {
-        applicationId = "com.project.compose"
+        applicationId = "com.karsatech.mypokedex"
         versionCode = 1
         versionName = "0.0.1"
 
