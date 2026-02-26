@@ -33,7 +33,10 @@ import androidx.navigation.compose.rememberNavController
 import com.karsatech.mypokedex.core.navigation.base.BaseNavGraph
 import com.karsatech.mypokedex.core.navigation.helper.navigateTo
 import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeLandingRoute
+import com.karsatech.mypokedex.core.navigation.route.SplashGraph
+import com.karsatech.mypokedex.core.navigation.route.SplashGraph.SplashRoute
 import com.karsatech.mypokedex.navigation.attr.AppNavHostAttr
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,9 +58,10 @@ internal fun AppNavHost(navGraphs: Set<@JvmSuppressWildcards BaseNavGraph>) {
                 .fillMaxSize()
                 .systemBarsPadding(),
             navController = navController,
-            startDestination = HomeLandingRoute::class
+            startDestination = SplashRoute::class
         ) {
             navGraphs.forEach { graph ->
+                Timber.tag("bala-bala").d("NavGraph loaded: ${graph::class.qualifiedName}")
                 with(graph) { createGraph(navController) }
             }
         }

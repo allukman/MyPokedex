@@ -1,0 +1,35 @@
+package com.karsatech.mypokedex.core.data.source.local.datastore
+
+import android.content.Context
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+
+private val Context.dataStore by preferencesDataStore("pokedex_datastore")
+
+class PokedexDataStore @Inject constructor(context: Context) {
+
+    private val dataStore = context.dataStore
+
+    suspend fun saveToken(token: Int) {
+        dataStore.edit { preferences ->
+            preferences[KEY_TOKEN] = token
+        }
+    }
+
+    val getToken = dataStore.data.map { preferences ->
+        preferences[KEY_TOKEN] ?: 0
+    }
+
+    suspend fun clearToken() {
+        dataStore.edit { preferences ->
+            preferences.remove(KEY_TOKEN)
+        }
+    }
+
+    companion object {
+        val KEY_TOKEN = intPreferencesKey("token")
+    }
+}

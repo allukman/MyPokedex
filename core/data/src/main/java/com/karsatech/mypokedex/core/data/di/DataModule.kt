@@ -1,12 +1,16 @@
 package com.karsatech.mypokedex.core.data.di
 
 import android.content.Context
+import androidx.room.Room
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.karsatech.mypokedex.core.data.BuildConfig.DEBUG
 import com.karsatech.mypokedex.core.data.repository.AppRepository
 import com.karsatech.mypokedex.core.data.repository.AppRepositoryImpl
-import com.karsatech.mypokedex.core.data.source.local.AppDataStore
+import com.karsatech.mypokedex.core.data.repository.PokedexRepository
+import com.karsatech.mypokedex.core.data.repository.PokedexRepositoryImpl
+import com.karsatech.mypokedex.core.data.source.local.datastore.PokedexDataStore
+import com.karsatech.mypokedex.core.data.source.local.db.PokedexDatabase
 import com.karsatech.mypokedex.core.data.source.remote.ApiService
 import dagger.Module
 import dagger.Provides
@@ -26,6 +30,9 @@ class DataModule {
 
     @Provides
     fun provideRepository(apiService: ApiService): AppRepository = AppRepositoryImpl(apiService)
+
+    @Provides
+    fun provideRepositoryPokedex(db: PokedexDatabase): PokedexRepository = PokedexRepositoryImpl(db)
 
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
@@ -57,5 +64,17 @@ class DataModule {
     ) = ChuckerInterceptor.Builder(context).collector(ChuckerCollector(context)).build()
 
     @Provides
-    fun provideDataStore(@ApplicationContext context: Context) = AppDataStore(context)
+    fun provideAppDatabase(
+        @ApplicationContext context: Context
+    ): PokedexDatabase = Room.databaseBuilder(
+        context,
+        PokedexDatabase::class.java,
+        "app_database"
+    ).fallbackToDestructiveMigration(true).build()
+
+    @Provides
+    fun provideUserDao(pokedexDatabase: PokedexDatabase) = pokedexDatabase.userDao()
+
+    @Provides
+    fun provideDataStore(@ApplicationContext context: Context) = PokedexDataStore(context)
 }

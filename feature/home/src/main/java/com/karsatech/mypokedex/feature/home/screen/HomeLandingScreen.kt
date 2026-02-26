@@ -20,6 +20,8 @@ import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeDataClassRout
 import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeDataClassRoute.CustomData
 import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeDataTypeRoute
 import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeFetchApiRoute
+import com.karsatech.mypokedex.core.navigation.route.SplashGraph
+import com.karsatech.mypokedex.core.navigation.route.SplashGraph.SplashRoute
 
 @Composable
 internal fun HomeLandingScreen(navController: NavController) {
@@ -54,7 +56,7 @@ internal fun HomeLandingScreen(navController: NavController) {
             ) { Text(text = "Navigate with data class args") }
             Spacer(modifier = Modifier.size(24.dp))
             Button(
-                onClick = { navController.navigateTo(HomeFetchApiRoute) }
+                onClick = { navController.navigateTo(SplashRoute) }
             ) { Text(text = "Fetch API") }
         }
     }
