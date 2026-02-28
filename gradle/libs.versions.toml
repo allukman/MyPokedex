@@ -20,6 +20,7 @@ ksp = "2.2.0-2.0.2"
 retrofit = "3.0.0"
 room = "2.7.2"
 timber = "5.0.1"
+palette = "1.0.0"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
@@ -48,6 +49,7 @@ retrofit-converter = { group = "com.squareup.retrofit2", name = "converter-gson"
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+palette = { group = "androidx.palette", name = "palette-ktx", version.ref = "palette" }
 
 # Dependencies of the included build-logic gradle files
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }

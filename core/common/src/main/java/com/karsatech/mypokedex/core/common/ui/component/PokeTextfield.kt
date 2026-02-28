@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -28,11 +29,12 @@ import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp8
 
 @Composable
 fun PokeTextfield(
-    label: String,
+    label: String? = null,
     placeholder: String,
     isPassword: Boolean = false,
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    leadingIcon: (@Composable (() -> Unit))? = null
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
@@ -41,11 +43,13 @@ fun PokeTextfield(
             .fillMaxWidth()
             .padding(vertical = Dp8)
     ) {
-        Text(
-            text = label,
-            style = typography.bodyBold3,
-            modifier = Modifier.fillMaxWidth()
-        )
+        label?.let {
+            Text(
+                text = it,
+                style = typography.bodyBold3,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         Spacer(modifier = Modifier.height(Dp8))
 
@@ -56,13 +60,11 @@ fun PokeTextfield(
             placeholder = { Text(placeholder, style = typography.body3, color = Color.Gray) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-
             visualTransformation =
                 if (isPassword && !passwordVisible)
                     PasswordVisualTransformation()
                 else
                     VisualTransformation.None,
-
             trailingIcon = {
                 if (isPassword) {
                     IconButton(
@@ -81,7 +83,7 @@ fun PokeTextfield(
                     }
                 }
             },
-
+            leadingIcon = leadingIcon,
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -90,48 +92,3 @@ fun PokeTextfield(
         )
     }
 }
-//@Composable
-//fun PokeTextfield(
-//    label: String,
-//    placeholder: String,
-//    isPassword: Boolean = false,
-//    value: String,
-//    onValueChange: (String) -> Unit
-//) {
-//    Column(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(vertical = Dp8)
-//    ) {
-//        Text(
-//            text = label,
-//            style = typography.bodyBold3,
-//            modifier = Modifier.fillMaxWidth()
-//        )
-//        Spacer(modifier = Modifier.height(Dp8))
-//        TextField(
-//            value = value,
-//            onValueChange = onValueChange,
-//            placeholder = { Text(placeholder, color = Color.Gray) },
-//            modifier = Modifier.fillMaxWidth(),
-//            shape = RoundedCornerShape(12.dp),
-//            visualTransformation = if (isPassword)
-//                PasswordVisualTransformation()
-//            else
-//                VisualTransformation.None,
-//            trailingIcon = {
-//                if (isPassword) {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.ic_eye),
-//                        contentDescription = null
-//                    )
-//                }
-//            },
-//            colors = TextFieldDefaults.colors(
-//                focusedIndicatorColor = Color.Transparent,
-//                unfocusedIndicatorColor = Color.Transparent,
-//                disabledIndicatorColor = Color.Transparent
-//            )
-//        )
-//    }
-//}
