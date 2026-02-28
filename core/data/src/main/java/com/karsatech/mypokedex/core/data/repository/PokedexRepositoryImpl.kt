@@ -13,6 +13,8 @@ class PokedexRepositoryImpl @Inject constructor(
     override suspend fun loginUser(email: String, password: String): UserEntity? =
         db.userDao().loginUser(email, password)
 
+    override suspend fun isEmailExist(email: String) = db.userDao().isEmailExist(email)
+
     override fun getUser() = db.userDao().getUser()
 
 }

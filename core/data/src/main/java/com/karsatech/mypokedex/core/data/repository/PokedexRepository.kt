@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface PokedexRepository {
     suspend fun registerUser(user: UserEntity)
     suspend fun loginUser(email: String, password: String): UserEntity?
+    suspend fun isEmailExist(email: String): Boolean
     fun getUser(): Flow<UserEntity?>
 }

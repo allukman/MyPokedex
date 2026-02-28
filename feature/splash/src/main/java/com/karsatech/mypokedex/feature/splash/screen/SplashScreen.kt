@@ -37,10 +37,12 @@ internal fun SplashScreen(
             if (SDK_INT >= TIRAMISU) notifPermission.launch(POST_NOTIFICATIONS)
         }
 
+        val currentTime = System.currentTimeMillis() / 1000
+
         LaunchedEffect(token) {
             delay(1000)
             navController.navigateTo(
-                route = if (token != 0) HomeLandingRoute else LoginRoute,
+                route = if (currentTime < token) HomeLandingRoute else LoginRoute,
                 popUpTo = SplashRoute::class,
                 inclusive = true
             )

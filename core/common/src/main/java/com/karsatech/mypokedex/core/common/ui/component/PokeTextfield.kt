@@ -52,6 +52,7 @@ fun PokeTextfield(
         TextField(
             value = value,
             onValueChange = onValueChange,
+            maxLines = 1,
             placeholder = { Text(placeholder, style = typography.body3, color = Color.Gray) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),

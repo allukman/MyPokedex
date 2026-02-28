@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,12 +41,12 @@ import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp2
 import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp24
 import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp8
 import com.karsatech.mypokedex.core.common.utils.LocalActivity
+import com.karsatech.mypokedex.core.common.utils.state.UiState
+import com.karsatech.mypokedex.core.common.utils.state.UiState.StateLoading
 import com.karsatech.mypokedex.core.common.utils.state.collectAsStateValue
 import com.karsatech.mypokedex.core.data.source.local.model.UserEntity
 import com.karsatech.mypokedex.core.navigation.helper.navigateTo
 import com.karsatech.mypokedex.core.navigation.route.AuthGraph.LoginRoute
-import com.karsatech.mypokedex.core.navigation.route.AuthGraph.RegisterRoute
-import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeLandingRoute
 import com.karsatech.mypokedex.feature.auth.viewmodel.AuthViewModel
 
 @Composable
@@ -61,45 +62,33 @@ internal fun RegisterScreen(
     var email by remember { mutableStateOf(EMPTY_STRING) }
     var password by remember { mutableStateOf(EMPTY_STRING) }
 
-    var showLoading by remember { mutableStateOf(false) }
-    var showError by remember { mutableStateOf(EMPTY_STRING) }
-
     BackHandler { activity.finish() }
+
+    LaunchedEffect(authState) {
+        when (authState) {
+
+            is UiState.StateSuccess -> {
+                navController.navigateTo(LoginRoute)
+                Toast.makeText(context, "Register success", LENGTH_SHORT).show()
+                viewModel.resetAuthState()
+            }
+
+            is UiState.StateFailed -> {
+                Toast.makeText(
+                    context,
+                    authState.throwable.message ?: "Register failed",
+                    LENGTH_SHORT
+                ).show()
+                viewModel.resetAuthState()
+            }
+
+            else -> Unit
+        }
+    }
 
     BaseScreen(
         showDefaultTopBar = false
     ) {
-
-//        LaunchedEffect(authState) {
-//            authState.handleUiState(
-//                onLoading = { showLoading = true },
-//                onSuccess = {
-//                    showLoading = false
-//                    navController.navigateTo(
-//                        route = HomeLandingRoute,
-//                        popUpTo = RegisterRoute::class,
-//                        inclusive = true,
-//                        launchSingleTop = true
-//                    )
-//                    resetAuthState()
-//                },
-//                onFailed = {
-//                    showLoading = false
-//                    showError = it.message ?: "Login failed"
-//                    resetAuthState()
-//                }
-//            )
-//        }
-
-        LaunchedEffect(showError) {
-            if (showError.isNotBlank()) Toast.makeText(
-                context,
-                showError,
-                LENGTH_SHORT
-            ).show()
-            showError = EMPTY_STRING
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -143,7 +132,6 @@ internal fun RegisterScreen(
                 onClick = {
                     if (name.isBlank() || email.isBlank() || password.isBlank()) {
                         Toast.makeText(context, "Please fill all fields", LENGTH_SHORT).show()
-                        return@Button
                     } else {
                         val user = UserEntity(
                             name = name,
@@ -151,7 +139,6 @@ internal fun RegisterScreen(
                             password = password
                         )
                         viewModel.register(user)
-                        navController.navigateTo(LoginRoute)
                     }
                 },
                 modifier = Modifier
@@ -160,9 +147,10 @@ internal fun RegisterScreen(
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors()
             ) {
-                if (showLoading) {
+                if (authState is StateLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(Dp24),
+                        color = Color.White,
                         strokeWidth = Dp2
                     )
                 } else {
