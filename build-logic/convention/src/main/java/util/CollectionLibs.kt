@@ -21,6 +21,8 @@ object CollectionLibs {
             implementation(libs.coil.network.get())
             implementation(libs.coil.video.get())
             implementation(libs.timber.get())
+            implementation(libs.paging.compose.get())
+            implementation(libs.paging.runtime.get())
             implementation(libs.palette.get())
 
         }
@@ -36,6 +38,8 @@ object CollectionLibs {
             implementation(libs.room.runtime.get())
             implementation(libs.timber.get())
             add(KSP, libs.room.compiler.get())
+            implementation(libs.room.paging.get())
+            implementation(libs.paging.runtime.get())
             implementation(libs.palette.get())
             debugImplementation(libs.chucker.debug.get())
             releaseImplementation(libs.chucker.release.get())

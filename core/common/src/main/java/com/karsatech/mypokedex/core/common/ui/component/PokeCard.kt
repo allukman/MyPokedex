@@ -5,6 +5,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,19 +40,19 @@ import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.request.crossfade
 import coil3.toBitmap
+import com.karsatech.mypokedex.core.common.ui.component.attr.PokeImageAttr.getImageUrl
 import timber.log.Timber
 import kotlin.random.Random
 
 @Composable
 fun PokeCard(
+    id: Int,
     name: String,
-    number: String,
-    imageUrl: String,
     modifier: Modifier = Modifier
 ) {
     var dominantColor by remember { mutableStateOf(Color(0xFFF5F5F5)) }
     var imageBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
-
+    val isDarkTheme = isSystemInDarkTheme()
     val offsetY = remember { Animatable(0f) }
 
     LaunchedEffect(Unit) {
@@ -75,9 +76,15 @@ fun PokeCard(
                     Timber.tag("bala-bala").d("color -> $colorValue")
                     val hsl = FloatArray(3)
                     ColorUtils.colorToHSL(colorValue, hsl)
-                    hsl[2] = 0.8f
-                    val lightenedColor = ColorUtils.HSLToColor(hsl)
-                    dominantColor = Color(lightenedColor)
+
+                    if (isDarkTheme) {
+                        hsl[2] = (hsl[2] * 0.5f).coerceIn(0f, 1f)
+                    } else {
+                        hsl[2] = (hsl[2] * 1.3f).coerceIn(0f, 1f)
+                    }
+
+                    val adjustedColor = ColorUtils.HSLToColor(hsl)
+                    dominantColor = Color(adjustedColor)
                 }
             }
         }
@@ -100,7 +107,7 @@ fun PokeCard(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(imageUrl)
+                    .data(getImageUrl(id))
                     .allowHardware(false)
                     .crossfade(true)
                     .build(),
@@ -119,7 +126,7 @@ fun PokeCard(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = number, fontSize = 14.sp)
+                Text(text = id.toString(), fontSize = 14.sp)
             }
         }
     }
@@ -129,8 +136,7 @@ fun PokeCard(
 @Composable
 private fun PokeCardPreview() {
     PokeCard(
+        id = 1,
         name = "Bulbasaur",
-        number = "001",
-        imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
     )
 }

@@ -32,7 +32,10 @@ class DataModule {
     fun provideRepository(apiService: ApiService): AppRepository = AppRepositoryImpl(apiService)
 
     @Provides
-    fun provideRepositoryPokedex(db: PokedexDatabase): PokedexRepository = PokedexRepositoryImpl(db)
+    fun provideRepositoryPokedex(
+        apiService: ApiService,
+        db: PokedexDatabase
+    ): PokedexRepository = PokedexRepositoryImpl(apiService, db)
 
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
@@ -42,7 +45,7 @@ class DataModule {
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit = Retrofit.Builder()
-        .baseUrl("https://api.sampleapis.com/")
+        .baseUrl("https://pokeapi.co/api/v2/")
         .addConverterFactory(gsonConverterFactory)
         .client(okHttpClient)
         .build()
@@ -74,6 +77,12 @@ class DataModule {
 
     @Provides
     fun provideUserDao(pokedexDatabase: PokedexDatabase) = pokedexDatabase.userDao()
+
+    @Provides
+    fun providePokemonDao(pokedexDatabase: PokedexDatabase) = pokedexDatabase.pokemonDao()
+
+    @Provides
+    fun provideRemoteKeysDao(pokedexDatabase: PokedexDatabase) = pokedexDatabase.remoteKeysDao()
 
     @Provides
     fun provideDataStore(@ApplicationContext context: Context) = PokedexDataStore(context)

@@ -13,10 +13,9 @@ import com.karsatech.mypokedex.core.data.source.local.model.RemoteKeysEntity
 import com.karsatech.mypokedex.core.data.source.remote.ApiService
 import java.util.concurrent.TimeUnit.HOURS
 import kotlin.text.orEmpty
-import kotlin.toString
 
 @OptIn(ExperimentalPagingApi::class)
-class PokemonRemoteMediator(
+class PokedexRemoteMediator(
     private val pokeApiService: ApiService,
     private val pokemonDatabase: PokedexDatabase
 ) : RemoteMediator<Int, PokemonEntity>() {
@@ -54,7 +53,7 @@ class PokemonRemoteMediator(
             pokemonDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     pokemonDatabase.remoteKeysDao().clearRemoteKeys()
-                    pokemonDatabase.pokedexDao().clearPokemons()
+                    pokemonDatabase.pokemonDao().clearPokemons()
                 }
 
                 val prevKey = if (loadKey == 0) null else loadKey - state.config.pageSize
@@ -76,7 +75,7 @@ class PokemonRemoteMediator(
                     )
                 }
 
-                pokemonDatabase.pokedexDao().insertPokemons(entities.orEmpty())
+                pokemonDatabase.pokemonDao().insertPokemons(entities.orEmpty())
                 pokemonDatabase.remoteKeysDao().insertKeys(keys.orEmpty())
             }
 
