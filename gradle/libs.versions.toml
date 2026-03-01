@@ -78,6 +78,7 @@ room-db = { id = "androidx.room", version.ref = "room" }
 convention-application = { id = "convention.application", version = "unspecified" }
 convention-common = { id = "convention.common", version = "unspecified" }
 convention-data = { id = "convention.data", version = "unspecified" }
+convention-domain = { id = "convention.domain", version = "unspecified" }
 convention-feature = { id = "convention.feature", version = "unspecified" }
 convention-navigation = { id = "convention.navigation", version = "unspecified" }
 

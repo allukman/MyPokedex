@@ -33,7 +33,7 @@ import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp16
 import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp210
 import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp24
 import com.karsatech.mypokedex.core.common.utils.state.collectAsStateValue
-import com.karsatech.mypokedex.core.data.source.local.model.PokemonEntity
+import com.karsatech.mypokedex.core.domain.model.Pokemon
 import com.karsatech.mypokedex.feature.home.viewmodel.HomeDetailViewModel
 
 @Composable
@@ -44,7 +44,7 @@ internal fun HomeDetailScreen(
 
     val pokemonDetailState = pokemonDetailState.collectAsStateValue()
     var showLoading by remember { mutableStateOf(false) }
-    var pokemon by remember { mutableStateOf<PokemonEntity?>(null) }
+    var pokemon by remember { mutableStateOf<Pokemon?>(null) }
     var showError by remember { mutableStateOf(false) }
 
     BaseScreen(

@@ -31,6 +31,7 @@ object CollectionLibs {
     fun Project.dataDependencies() {
         dependencies {
             implementation(project(coreModules[1]))
+            implementation(project(coreModules[3]))
             implementation(libs.dataStorePreferences.get())
             implementation(libs.okhttp.interceptor.get())
             implementation(libs.retrofit.lib.get())
@@ -43,6 +44,16 @@ object CollectionLibs {
             implementation(libs.palette.get())
             debugImplementation(libs.chucker.debug.get())
             releaseImplementation(libs.chucker.release.get())
+        }
+    }
+
+    fun Project.domainDependencies() {
+        dependencies {
+            implementation(project(coreModules[1]))
+            implementation(libs.timber.get())
+            add(KSP, libs.room.compiler.get())
+            implementation(libs.room.paging.get())
+            implementation(libs.paging.runtime.get())
         }
     }
 }

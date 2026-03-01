@@ -32,11 +32,14 @@ dependencyResolutionManagement {
         maven("https://jitpack.io")
     }
 }
-
+// APP
 include(":app")
+// CORE
 include(":core:common")
 include(":core:data")
+include(":core:domain")
 include(":core:navigation")
+// FEATURE
 include(":feature:home")
 include(":feature:splash")
 include(":feature:auth")

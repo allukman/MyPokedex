@@ -51,6 +51,10 @@ gradlePlugin {
             id = "convention.data"
             implementationClass = "plugin.module.DataModulePlugin"
         }
+        register("domain") {
+            id = "convention.domain"
+            implementationClass = "plugin.module.DomainModulePlugin"
+        }
         register("feature") {
             id = "convention.feature"
             implementationClass = "plugin.module.FeatureModulePlugin"

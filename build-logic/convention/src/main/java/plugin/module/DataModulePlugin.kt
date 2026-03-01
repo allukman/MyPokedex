@@ -1,10 +1,10 @@
 package plugin.module
 
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 import util.CollectionLibs.dataDependencies
 import util.alias
 import util.libs
-import org.gradle.api.Plugin
-import org.gradle.api.Project
 
 class DataModulePlugin : Plugin<Project> {
     override fun apply(target: Project) {

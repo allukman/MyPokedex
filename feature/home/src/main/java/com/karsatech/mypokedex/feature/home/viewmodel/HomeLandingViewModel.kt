@@ -3,7 +3,8 @@ package com.karsatech.mypokedex.feature.home.viewmodel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.karsatech.mypokedex.core.common.base.BaseViewModel
-import com.karsatech.mypokedex.core.data.repository.PokedexRepository
+import com.karsatech.mypokedex.core.domain.usecase.GetPokemonsUseCase
+import com.karsatech.mypokedex.core.domain.usecase.SearchPokemonUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeLandingViewModel @Inject constructor(
-    repository: PokedexRepository
+    private val getPokemons: GetPokemonsUseCase,
+    private val searchPokemon: SearchPokemonUseCase
 ) : BaseViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
@@ -26,10 +28,9 @@ class HomeLandingViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val pokemonResult = _searchQuery.flatMapLatest { query ->
         if (query.isBlank()) {
-            repository.getPokemons().cachedIn(viewModelScope)
+            getPokemons().cachedIn(viewModelScope)
         } else {
-            repository.getPokemonBySearch(query).cachedIn(viewModelScope)
+            searchPokemon(query).cachedIn(viewModelScope)
         }
     }
-
 }

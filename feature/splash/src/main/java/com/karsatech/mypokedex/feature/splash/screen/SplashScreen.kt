@@ -1,10 +1,5 @@
 package com.karsatech.mypokedex.feature.splash.screen
 
-import android.Manifest.permission.POST_NOTIFICATIONS
-import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.TIRAMISU
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -33,11 +28,7 @@ internal fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel()
 ) = with(viewModel) {
     val token = token.collectAsStateValue()
-    val notifPermission = rememberLauncherForActivityResult(RequestPermission()) {}
     BaseScreen(showDefaultTopBar = false) {
-        LaunchedEffect(Unit) {
-            if (SDK_INT >= TIRAMISU) notifPermission.launch(POST_NOTIFICATIONS)
-        }
 
         val currentTime = System.currentTimeMillis() / 1000
 

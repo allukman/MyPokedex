@@ -44,7 +44,7 @@ import com.karsatech.mypokedex.core.common.ui.theme.AppTheme.typography
 import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp24
 import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp48
 import com.karsatech.mypokedex.core.common.utils.state.collectAsStateValue
-import com.karsatech.mypokedex.core.data.source.local.model.UserEntity
+import com.karsatech.mypokedex.core.domain.model.User
 import com.karsatech.mypokedex.core.navigation.helper.navigateTo
 import com.karsatech.mypokedex.core.navigation.route.AuthGraph.LoginRoute
 import com.karsatech.mypokedex.core.navigation.route.ProfileGraph.ProfileLandingRoute
@@ -56,7 +56,7 @@ internal fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) = with(viewModel) {
     val profileState = profileState.collectAsStateValue()
-    var dataUser by remember { mutableStateOf<UserEntity?>(null) }
+    var dataUser by remember { mutableStateOf<User?>(null) }
 
     BaseScreen(
         topBarArgs = TopBarArgs(

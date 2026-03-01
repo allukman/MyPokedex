@@ -5,8 +5,8 @@ import androidx.navigation.toRoute
 import com.karsatech.mypokedex.core.common.base.BaseViewModel
 import com.karsatech.mypokedex.core.common.utils.state.UiState
 import com.karsatech.mypokedex.core.common.utils.state.UiState.StateInitial
-import com.karsatech.mypokedex.core.data.repository.PokedexRepository
-import com.karsatech.mypokedex.core.data.source.local.model.PokemonEntity
+import com.karsatech.mypokedex.core.domain.model.Pokemon
+import com.karsatech.mypokedex.core.domain.usecase.GetPokemonDetailUseCase
 import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeDetailRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,11 +16,14 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repository: PokedexRepository
+    private val getPokemonDetailUseCase: GetPokemonDetailUseCase
 ) : BaseViewModel() {
+
     val args by lazy { savedStateHandle.toRoute<HomeDetailRoute>() }
 
-    private val _pokemonDetailState = MutableStateFlow<UiState<PokemonEntity>>(StateInitial)
+    private val _pokemonDetailState =
+        MutableStateFlow<UiState<Pokemon>>(StateInitial)
+
     val pokemonDetailState = _pokemonDetailState.asStateFlow()
 
     init {
@@ -28,7 +31,7 @@ class HomeDetailViewModel @Inject constructor(
     }
 
     fun getPokemonDetail() = collectApiAsUiState(
-        response = repository.getPokemonDetail(args.pokemonId),
+        response = getPokemonDetailUseCase(args.pokemonId),
         updateState = { _pokemonDetailState.value = it }
     )
 }

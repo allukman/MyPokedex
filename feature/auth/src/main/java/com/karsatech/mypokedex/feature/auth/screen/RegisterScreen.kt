@@ -44,6 +44,7 @@ import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp8
 import com.karsatech.mypokedex.core.common.utils.state.UiState
 import com.karsatech.mypokedex.core.common.utils.state.UiState.StateLoading
 import com.karsatech.mypokedex.core.common.utils.state.collectAsStateValue
+import com.karsatech.mypokedex.core.data.mapper.toDomain
 import com.karsatech.mypokedex.core.data.source.local.model.UserEntity
 import com.karsatech.mypokedex.core.navigation.helper.navigateTo
 import com.karsatech.mypokedex.core.navigation.route.AuthGraph.LoginRoute
@@ -151,7 +152,7 @@ internal fun RegisterScreen(
                             email = email,
                             password = password
                         )
-                        viewModel.register(user)
+                        viewModel.register(user.toDomain())
                     }
                 },
                 modifier = Modifier
