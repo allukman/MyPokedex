@@ -41,7 +41,6 @@ import coil3.request.allowHardware
 import coil3.request.crossfade
 import coil3.toBitmap
 import com.karsatech.mypokedex.core.common.ui.component.attr.PokeImageAttr.getImageUrl
-import timber.log.Timber
 import kotlin.random.Random
 
 @Composable
@@ -69,11 +68,8 @@ fun PokeCard(
 
     LaunchedEffect(imageBitmap) {
         imageBitmap?.let { bitmap ->
-            Timber.tag("bala-bala").d("BB")
             Palette.from(bitmap).generate { palette ->
-                Timber.tag("bala-bala").d("Palette -> $palette")
                 palette?.dominantSwatch?.rgb?.let { colorValue ->
-                    Timber.tag("bala-bala").d("color -> $colorValue")
                     val hsl = FloatArray(3)
                     ColorUtils.colorToHSL(colorValue, hsl)
 
@@ -119,7 +115,6 @@ fun PokeCard(
                     },
                 onSuccess = { success ->
                     imageBitmap = success.result.image.toBitmap()
-                    Timber.tag("bala-bala").d("AA - Image Loaded")
                 }
             )
 

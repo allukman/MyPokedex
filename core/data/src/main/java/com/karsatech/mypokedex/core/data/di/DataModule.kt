@@ -5,8 +5,6 @@ import androidx.room.Room
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.karsatech.mypokedex.core.data.BuildConfig.DEBUG
-import com.karsatech.mypokedex.core.data.repository.AppRepository
-import com.karsatech.mypokedex.core.data.repository.AppRepositoryImpl
 import com.karsatech.mypokedex.core.data.repository.PokedexRepository
 import com.karsatech.mypokedex.core.data.repository.PokedexRepositoryImpl
 import com.karsatech.mypokedex.core.data.source.local.datastore.PokedexDataStore
@@ -27,10 +25,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
-
-    @Provides
-    fun provideRepository(apiService: ApiService): AppRepository = AppRepositoryImpl(apiService)
-
     @Provides
     fun provideRepositoryPokedex(
         apiService: ApiService,

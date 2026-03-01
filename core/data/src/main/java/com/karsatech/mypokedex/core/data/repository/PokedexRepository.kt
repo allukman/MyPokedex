@@ -13,5 +13,5 @@ interface PokedexRepository {
     fun getUser(): Flow<UserEntity?>
     fun getPokemons(): Flow<PagingData<PokemonEntity>>
     fun getPokemonBySearch(query: String): Flow<PagingData<PokemonEntity>>
-    fun getPokemonDetail(id: Int): Flow<Any>
+    fun getPokemonDetail(id: Int): Flow<ApiState<PokemonEntity>>
 }

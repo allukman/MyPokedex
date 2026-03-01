@@ -2,7 +2,6 @@ package com.karsatech.mypokedex.feature.home.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.karsatech.mypokedex.core.common.base.BaseRepository
 import com.karsatech.mypokedex.core.common.base.BaseViewModel
 import com.karsatech.mypokedex.core.data.repository.PokedexRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

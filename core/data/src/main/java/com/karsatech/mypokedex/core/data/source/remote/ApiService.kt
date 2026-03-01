@@ -2,15 +2,11 @@ package com.karsatech.mypokedex.core.data.source.remote
 
 import com.karsatech.mypokedex.core.data.model.response.PokemonDetailResponse
 import com.karsatech.mypokedex.core.data.model.response.PokemonResponse
-import com.karsatech.mypokedex.core.data.model.response.SampleModelResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("codingresources/codingResources")
-    suspend fun getListData(): List<SampleModelResponse>
-
     @GET("pokemon")
     suspend fun getPokemonList(
         @Query("offset") offset: Int = 0,
