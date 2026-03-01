@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -57,7 +58,7 @@ internal fun HomeLandingScreen(
             modifier = Modifier.fillMaxSize(),
             columns = Adaptive(minSize = Dp120),
             verticalArrangement = spacedBy(Dp8),
-            horizontalArrangement = spacedBy(Dp8),
+            horizontalArrangement = spacedBy(Dp8)
         ) {
 
             item(span = { GridItemSpan(maxLineSpan) }) {
@@ -65,14 +66,14 @@ internal fun HomeLandingScreen(
                     Spacer(modifier = Modifier.height(Dp32))
 
                     Text(
-                        text = "MyPokédex",
+                        text = stringResource(R.string.app_name),
                         style = typography.h1
                     )
 
                     Spacer(modifier = Modifier.height(Dp16))
 
                     Text(
-                        text = "Search for a Pokémon by name or using its National Pokédex number.",
+                        text = stringResource(R.string.landing_description),
                         style = typography.body2,
                         color = Color.Gray
                     )
@@ -80,15 +81,15 @@ internal fun HomeLandingScreen(
                     Spacer(modifier = Modifier.height(Dp16))
 
                     PokeTextfield(
-                        placeholder = "Name or number",
+                        placeholder = stringResource(R.string.label_search_placeholder),
                         value = query.value,
                         leadingIcon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_search),
+                                painter = painterResource(R.drawable.ic_search),
                                 contentDescription = null
                             )
                         },
-                        onValueChange = { viewModel.onSearchQueryChanged(it) }
+                        onValueChange = { onSearchQueryChanged(it) }
                     )
 
                     Spacer(modifier = Modifier.height(Dp16))
@@ -119,12 +120,15 @@ internal fun HomeLandingScreen(
                             horizontalAlignment = CenterHorizontally
                         ) {
                             Text(
-                                text = "Failed to fetch data: ${refreshState.error.localizedMessage}",
+                                text = stringResource(R.string.pokemon_landing_failed) +
+                                        refreshState.error.localizedMessage,
                                 textAlign = TextAlign.Center
                             )
+
                             Spacer(modifier = Modifier.height(Dp8))
+
                             Button(onClick = { lazyPokemonItems.retry() }) {
-                                Text("Retry")
+                                Text(stringResource(R.string.retry))
                             }
                         }
                     }
@@ -133,6 +137,7 @@ internal fun HomeLandingScreen(
                 else -> {
 
                     if (lazyPokemonItems.itemCount == 0) {
+
                         item(span = { GridItemSpan(maxLineSpan) }) {
                             Box(
                                 modifier = Modifier
@@ -141,12 +146,14 @@ internal fun HomeLandingScreen(
                                 contentAlignment = Center
                             ) {
                                 Text(
-                                    text = "Pokémon not found",
+                                    text = stringResource(R.string.pokemon_not_found),
                                     style = typography.bodyBold1
                                 )
                             }
                         }
+
                     } else {
+
                         items(
                             count = lazyPokemonItems.itemCount,
                             key = lazyPokemonItems.itemKey { it.id }
@@ -176,6 +183,9 @@ internal fun HomeLandingScreen(
 
                             is LoadState.Loading -> {
                                 item(span = { GridItemSpan(maxLineSpan) }) {
+
+                                    Spacer(modifier = Modifier.height(Dp32))
+
                                     Box(
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -184,6 +194,8 @@ internal fun HomeLandingScreen(
                                     ) {
                                         CircularProgressIndicator()
                                     }
+
+                                    Spacer(modifier = Modifier.height(Dp32))
                                 }
                             }
 
@@ -195,10 +207,15 @@ internal fun HomeLandingScreen(
                                             .padding(Dp16),
                                         horizontalAlignment = CenterHorizontally
                                     ) {
-                                        Text("Failed to load more")
+
+                                        Text(stringResource(R.string.failed_to_load_more))
+
                                         Spacer(modifier = Modifier.height(Dp8))
-                                        Button(onClick = { lazyPokemonItems.retry() }) {
-                                            Text("Try Again")
+
+                                        Button(
+                                            onClick = { lazyPokemonItems.retry() }
+                                        ) {
+                                            Text(stringResource(R.string.retry))
                                         }
                                     }
                                 }
@@ -212,98 +229,3 @@ internal fun HomeLandingScreen(
         }
     }
 }
-
-//@Composable
-//private fun PokedexScreen() {
-//    when (val refreshState = lazyPokemonItems.loadState.refresh) {
-//        is LoadState.Loading -> {
-//            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center) {
-//                CircularProgressIndicator(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .wrapContentWidth(CenterHorizontally)
-//                )
-//            }
-//        }
-//
-//        is LoadState.Error -> {
-//            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center) {
-//                Column(horizontalAlignment = CenterHorizontally) {
-//                    Text(
-//                        text = "Failed to fetch data: ${refreshState.error.localizedMessage}",
-//                        textAlign = TextAlign.Center
-//                    )
-//                    Spacer(modifier = Modifier.height(Dp8))
-//                    Button(onClick = { lazyPokemonItems.retry() }) {
-//                        Text("Retry")
-//                    }
-//                }
-//            }
-//        }
-//
-//        else -> if (lazyPokemonItems.itemCount == 0) {
-//            Box(
-//                modifier = Modifier.fillMaxSize(),
-//                contentAlignment = Center
-//            ) {
-//                Text(
-//                    text = "Pokémon not found",
-//                    style = typography.bodyBold1
-//                )
-//            }
-//        } else LazyVerticalGrid(
-//            modifier = Modifier.fillMaxSize(),
-//            columns = Adaptive(minSize = Dp120),
-//            verticalArrangement = spacedBy(Dp8),
-//            horizontalArrangement = spacedBy(Dp8),
-//            contentPadding = PaddingValues(bottom = Dp100)
-//        ) {
-//            items(
-//                count = lazyPokemonItems.itemCount,
-//                key = lazyPokemonItems.itemKey { it.id }
-//            ) { index ->
-//                val pokemon = lazyPokemonItems[index]
-//                pokemon?.let {
-//                    PokeCard(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .onCustomClick {
-//                                navController.navigateTo(
-//                                    HomeDetailRoute(pokemonId = pokemon.id)
-//                                )
-//                            },
-//                        id = pokemon.id,
-//                        name = pokemon.name
-//                    )
-//                }
-//            }
-//
-//            item(span = { GridItemSpan(maxLineSpan) }) {
-//                when (lazyPokemonItems.loadState.append) {
-//                    is LoadState.Loading -> {
-//                        Row(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .padding(Dp16),
-//                            horizontalArrangement = Arrangement.Center
-//                        ) { CircularProgressIndicator() }
-//                    }
-//
-//                    is LoadState.Error -> {
-//                        Column(
-//                            modifier = Modifier.fillMaxWidth(),
-//                            horizontalAlignment = CenterHorizontally
-//                        ) {
-//                            Text("Failed to load more")
-//                            Button(onClick = { lazyPokemonItems.retry() }) {
-//                                Text("Try Again")
-//                            }
-//                        }
-//                    }
-//
-//                    else -> Unit
-//                }
-//            }
-//        }
-//    }
-//}

@@ -29,10 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.karsatech.mypokedex.core.common.R
 import com.karsatech.mypokedex.core.common.base.BaseScreen
 import com.karsatech.mypokedex.core.common.ui.component.PokeTextfield
 import com.karsatech.mypokedex.core.common.ui.theme.AppTheme.typography
@@ -45,14 +47,9 @@ import com.karsatech.mypokedex.core.common.utils.state.UiState
 import com.karsatech.mypokedex.core.common.utils.state.UiState.StateLoading
 import com.karsatech.mypokedex.core.common.utils.state.collectAsStateValue
 import com.karsatech.mypokedex.core.navigation.helper.navigateTo
-import com.karsatech.mypokedex.core.navigation.route.AuthGraph.LoginRoute
 import com.karsatech.mypokedex.core.navigation.route.AuthGraph.RegisterRoute
 import com.karsatech.mypokedex.core.navigation.route.HomeGraph.HomeLandingRoute
 import com.karsatech.mypokedex.feature.auth.viewmodel.AuthViewModel
-import timber.log.Timber
-import java.time.LocalDate
-import java.time.LocalDateTime
-import kotlin.time.Instant
 
 @Composable
 internal fun LoginScreen(
@@ -72,20 +69,24 @@ internal fun LoginScreen(
         when (authState) {
 
             is UiState.StateSuccess -> {
-                navController.navigateTo(
-                    route = HomeLandingRoute,
-                    popUpTo = LoginRoute::class,
-                    inclusive = true,
+                navController.navigate(HomeLandingRoute) {
+                    popUpTo(0) {
+                        inclusive = true
+                    }
                     launchSingleTop = true
-                )
-                Toast.makeText(context, "Login success", LENGTH_SHORT).show()
+                }
+                Toast.makeText(
+                    context,
+                    R.string.login_success,
+                    LENGTH_SHORT
+                ).show()
                 viewModel.resetAuthState()
             }
 
             is UiState.StateFailed -> {
                 Toast.makeText(
                     context,
-                    authState.throwable.message ?: "Login failed",
+                    authState.throwable.message,
                     LENGTH_SHORT
                 ).show()
                 viewModel.resetAuthState()
@@ -96,7 +97,6 @@ internal fun LoginScreen(
     }
 
     BaseScreen(showDefaultTopBar = false) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -104,31 +104,38 @@ internal fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("Sign In", style = typography.bodyBold1, fontSize = 24.sp)
+            Text(
+                text = stringResource(R.string.login),
+                style = typography.bodyBold1,
+                fontSize = 24.sp
+            )
 
             Spacer(modifier = Modifier.height(Dp8))
 
-            Text("Proceed to access your account", style = typography.bodyBold3)
+            Text(
+                text = stringResource(R.string.sign_in_description),
+                style = typography.bodyBold3
+            )
 
             Spacer(modifier = Modifier.height(48.dp))
 
             PokeTextfield(
-                label = "Email",
-                placeholder = "example@gmail.com",
+                label = stringResource(R.string.label_email),
+                placeholder = stringResource(R.string.label_email_placeholder),
                 value = email,
                 onValueChange = { email = it }
             )
 
             PokeTextfield(
-                label = "Password",
-                placeholder = "****************",
+                label = stringResource(R.string.label_password),
+                placeholder = stringResource(R.string.label_password_placeholder),
                 isPassword = true,
                 value = password,
                 onValueChange = { password = it }
             )
 
             Text(
-                "Forgot Password?",
+                text = stringResource(R.string.forgot_password),
                 modifier = Modifier.align(Alignment.End),
                 style = typography.bodyBold3
             )
@@ -138,7 +145,7 @@ internal fun LoginScreen(
             Button(
                 onClick = {
                     if (email.isBlank() || password.isBlank()) {
-                        Toast.makeText(context, "Please fill all fields", LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.fill_all_fields, LENGTH_SHORT).show()
                         return@Button
                     } else {
                         viewModel.login(email, password)
@@ -157,16 +164,19 @@ internal fun LoginScreen(
                         strokeWidth = Dp2
                     )
                 } else {
-                    Text("Sign In")
+                    Text(text = stringResource(R.string.sign_in), color = Color.White)
                 }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
             Row {
-                Text(text = "Don't have an account? ", style = typography.bodyBold3)
                 Text(
-                    text = "Sign up",
+                    text = stringResource(R.string.sign_up_instead),
+                    style = typography.bodyBold3
+                )
+                Text(
+                    text = stringResource(R.string.sign_up),
                     color = MaterialTheme.colorScheme.primary,
                     style = typography.bodyBold3,
                     modifier = Modifier.clickable { navController.navigateTo(RegisterRoute) }

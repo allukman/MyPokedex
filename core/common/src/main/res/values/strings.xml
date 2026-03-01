@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">MyPokédex</string>
+    <string name="login">Login</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="login_success">Login success</string>
+    <string name="login_failed">Login failed</string>
+    <string name="register_success">Register success</string>
+    <string name="register_failed">Register failed</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in_description">Proceed to your account</string>
+    <string name="sign_up_description">Enter your information to create account</string>
+    <string name="sign_in_instead">Already have an account?\u0020</string>
+    <string name="sign_up_instead">Don\'t have an account?\u0020</string>
+    <string name="label_email">Email</string>
+    <string name="label_name">Name</string>
+    <string name="label_password">Password</string>
+    <string name="label_email_placeholder">example@gmail.com</string>
+    <string name="label_name_placeholder">John Doe</string>
+    <string name="label_password_placeholder">************</string>
+    <string name="label_search_placeholder">Name or number</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="fill_all_fields">Please fill all fields</string>
+    <string name="pokemon_detail">Pokémon Detail</string>
+    <string name="pokemon_detail_failed">Failed to load Pokémon details. Please try again.</string>
+    <string name="retry">Retry</string>
+    <string name="abilities">Abilities : </string>
+    <string name="landing_description">Search for a Pokémon by name or using its National Pokédex number.</string>
+    <string name="pokemon_landing_failed">Failed to fetch data: \u0020</string>
+    <string name="pokemon_not_found">Pokémon not found</string>
+    <string name="failed_to_load_more">Failed to load more</string>
+</resources>

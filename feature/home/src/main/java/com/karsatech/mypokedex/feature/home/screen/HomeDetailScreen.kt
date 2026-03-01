@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.karsatech.mypokedex.core.common.R
@@ -48,7 +49,7 @@ internal fun HomeDetailScreen(
 
     BaseScreen(
         topBarArgs = AppTopBarAttr.TopBarArgs(
-            title = { Text("Pokémon Detail") },
+            title = { Text(stringResource(R.string.pokemon_detail)) },
             iconBack = R.drawable.ic_back,
             onClickBack = { navController.popBackStack() }
         )) {
@@ -79,9 +80,9 @@ internal fun HomeDetailScreen(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "Failed to load Pokémon details. Please try again.")
+                Text(text = stringResource(R.string.pokemon_detail_failed))
                 Button(onClick = { getPokemonDetail() }) {
-                    Text(text = "Retry")
+                    Text(text = stringResource(R.string.retry))
                 }
             }
 
@@ -106,7 +107,7 @@ internal fun HomeDetailScreen(
                         )
                         Spacer(modifier = Modifier.height(Dp24))
                         Text(
-                            text = "Abilities:",
+                            text = stringResource(R.string.abilities),
                             style = typography.h3
                         )
                         Spacer(modifier = Modifier.height(Dp16))

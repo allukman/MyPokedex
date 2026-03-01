@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class AuthGraph {
     @Serializable
-    data object LoginRoute : HomeGraph()
+    data object LoginRoute : AuthGraph()
 
     @Serializable
-    data object RegisterRoute : HomeGraph()
+    data object RegisterRoute : AuthGraph()
 
 }

@@ -13,8 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.karsatech.mypokedex.core.common.R
 import com.karsatech.mypokedex.core.common.base.BaseScreen
 import com.karsatech.mypokedex.core.common.ui.theme.AppTheme.typography
 import com.karsatech.mypokedex.core.common.utils.state.collectAsStateValue
@@ -53,7 +55,7 @@ internal fun SplashScreen(
             contentAlignment = Center
         ) {
             Text(
-                text = "MyPokédex",
+                text = stringResource(R.string.app_name),
                 style = typography.h1,
                 color = colorScheme.primary
             )

@@ -2,7 +2,6 @@ package com.karsatech.mypokedex.feature.auth.screen
 
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,10 +28,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.karsatech.mypokedex.core.common.R
 import com.karsatech.mypokedex.core.common.base.BaseScreen
 import com.karsatech.mypokedex.core.common.ui.component.PokeTextfield
 import com.karsatech.mypokedex.core.common.ui.theme.AppTheme.typography
@@ -40,13 +41,13 @@ import com.karsatech.mypokedex.core.common.ui.theme.Constant.EMPTY_STRING
 import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp2
 import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp24
 import com.karsatech.mypokedex.core.common.ui.theme.Dimens.Dp8
-import com.karsatech.mypokedex.core.common.utils.LocalActivity
 import com.karsatech.mypokedex.core.common.utils.state.UiState
 import com.karsatech.mypokedex.core.common.utils.state.UiState.StateLoading
 import com.karsatech.mypokedex.core.common.utils.state.collectAsStateValue
 import com.karsatech.mypokedex.core.data.source.local.model.UserEntity
 import com.karsatech.mypokedex.core.navigation.helper.navigateTo
 import com.karsatech.mypokedex.core.navigation.route.AuthGraph.LoginRoute
+import com.karsatech.mypokedex.core.navigation.route.AuthGraph.RegisterRoute
 import com.karsatech.mypokedex.feature.auth.viewmodel.AuthViewModel
 
 @Composable
@@ -56,27 +57,32 @@ internal fun RegisterScreen(
 ) = with(viewModel) {
     val authState = authState.collectAsStateValue()
     val context = LocalContext.current
-    val activity = LocalActivity.current
 
     var name by remember { mutableStateOf(EMPTY_STRING) }
     var email by remember { mutableStateOf(EMPTY_STRING) }
     var password by remember { mutableStateOf(EMPTY_STRING) }
 
-    BackHandler { activity.finish() }
-
     LaunchedEffect(authState) {
         when (authState) {
 
             is UiState.StateSuccess -> {
-                navController.navigateTo(LoginRoute)
-                Toast.makeText(context, "Register success", LENGTH_SHORT).show()
+                navController.navigateTo(
+                    route = LoginRoute,
+                    popUpTo = RegisterRoute::class,
+                    inclusive = true
+                )
+                Toast.makeText(
+                    context,
+                    R.string.register_success,
+                    LENGTH_SHORT
+                ).show()
                 viewModel.resetAuthState()
             }
 
             is UiState.StateFailed -> {
                 Toast.makeText(
                     context,
-                    authState.throwable.message ?: "Register failed",
+                    authState.throwable.message,
                     LENGTH_SHORT
                 ).show()
                 viewModel.resetAuthState()
@@ -96,31 +102,38 @@ internal fun RegisterScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("Create Account", style = typography.bodyBold1, fontSize = 24.sp)
+            Text(
+                text = stringResource(R.string.create_an_account),
+                style = typography.bodyBold1,
+                fontSize = 24.sp
+            )
 
             Spacer(modifier = Modifier.height(Dp8))
 
-            Text("Enter your information to create account", style = typography.bodyBold3)
+            Text(
+                text = stringResource(R.string.sign_up_description),
+                style = typography.bodyBold3
+            )
 
             Spacer(modifier = Modifier.height(48.dp))
 
             PokeTextfield(
-                label = "Name",
-                placeholder = "John Doe",
+                label = stringResource(R.string.label_name),
+                placeholder = stringResource(R.string.label_name_placeholder),
                 value = name,
                 onValueChange = { name = it }
             )
 
             PokeTextfield(
-                label = "Email",
-                placeholder = "example@gmail.com",
+                label = stringResource(R.string.label_email),
+                placeholder = stringResource(R.string.label_email_placeholder),
                 value = email,
                 onValueChange = { email = it }
             )
 
             PokeTextfield(
-                label = "Password",
-                placeholder = "****************",
+                label = stringResource(R.string.label_password),
+                placeholder = stringResource(R.string.label_password_placeholder),
                 isPassword = true,
                 value = password,
                 onValueChange = { password = it }
@@ -131,7 +144,7 @@ internal fun RegisterScreen(
             Button(
                 onClick = {
                     if (name.isBlank() || email.isBlank() || password.isBlank()) {
-                        Toast.makeText(context, "Please fill all fields", LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.fill_all_fields, LENGTH_SHORT).show()
                     } else {
                         val user = UserEntity(
                             name = name,
@@ -154,19 +167,31 @@ internal fun RegisterScreen(
                         strokeWidth = Dp2
                     )
                 } else {
-                    Text("Create new account", style = typography.bodyBold3)
+                    Text(
+                        text = stringResource(R.string.sign_up),
+                        style = typography.bodyBold3
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
             Row {
-                Text(text = "Already have an account? ", style = typography.bodyBold3)
                 Text(
-                    text = "Sign in",
+                    text = stringResource(R.string.sign_in_instead),
+                    style = typography.bodyBold3
+                )
+                Text(
+                    text = stringResource(R.string.sign_in),
                     color = MaterialTheme.colorScheme.primary,
                     style = typography.bodyBold3,
-                    modifier = Modifier.clickable { navController.navigateTo(LoginRoute) }
+                    modifier = Modifier.clickable {
+                        navController.navigateTo(
+                            route = LoginRoute,
+                            popUpTo = RegisterRoute::class,
+                            inclusive = true
+                        )
+                    }
                 )
             }
 
